@@ -48,6 +48,15 @@ else
     sudo systemctl enable docker
     sudo systemctl start docker
     echo -e "\e[32mDocker installed successfully!\e[0m"
+    
+    # Adding user to Docker group
+    echo -e "\e[34mAdding ubuntu user to Docker group...\e[0m"
+    sudo usermod -aG docker ubuntu
+    echo -e "\e[32mUser added to Docker group!\e[0m"
+    
+    # Restarting system to apply changes
+    echo -e "\e[34mRestarting system to apply changes...\e[0m"
+    sudo reboot
 fi
 
 # Setting JAVA_HOME
