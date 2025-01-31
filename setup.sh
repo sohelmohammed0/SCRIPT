@@ -65,18 +65,3 @@ mvn -version
 
 echo -e "\e[36mDocker version:\e[0m"
 docker --version
-
-# Cloning and setting up the project
-REPO_URL=""  # Replace with your repository URL
-PROJECT_DIR="" # Replace with your project directory name
-
-echo -e "\e[34mCloning repository...\e[0m"
-git clone "$REPO_URL" "$PROJECT_DIR" || (cd "$PROJECT_DIR" && git pull)
-cd "$PROJECT_DIR"
-
-echo -e "\e[34mBuilding the project with Maven...\e[0m"
-mvn clean install
-
-# Running the application
-echo -e "\e[34mStarting the application...\e[0m"
-mvn spring-boot:run
