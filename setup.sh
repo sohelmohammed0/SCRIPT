@@ -48,16 +48,17 @@ else
     sudo systemctl enable docker
     sudo systemctl start docker
     echo -e "\e[32mDocker installed successfully!\e[0m"
-    
-    # Adding user to Docker group
-    echo -e "\e[34mAdding ubuntu user to Docker group...\e[0m"
-    sudo usermod -aG docker ubuntu
-    echo -e "\e[32mUser added to Docker group!\e[0m"
-    
-    # Restarting system to apply changes
-    echo -e "\e[34mRestarting system to apply changes...\e[0m"
-    sudo reboot
 fi
+
+# Adding user to Docker group
+echo -e "\e[34mAdding ubuntu user to Docker group...\e[0m"
+sudo usermod -aG docker $USER
+echo -e "\e[32mUser added to Docker group!\e[0m"
+
+# Applying group changes without restarting
+echo -e "\e[34mApplying group changes...\e[0m"
+newgrp docker
+echo -e "\e[32mUser can now run Docker without sudo!\e[0m"
 
 # Setting JAVA_HOME
 JAVA_HOME=$(readlink -f /usr/bin/java | sed "s:/bin/java::")
@@ -74,3 +75,11 @@ mvn -version
 
 echo -e "\e[36mDocker version:\e[0m"
 docker --version
+
+# Verify Docker permissions
+echo -e "\e[36mChecking Docker access...\e[0m"
+if docker info >/dev/null 2>&1; then
+    echo -e "\e[32mDocker is accessible without sudo!\e[0m"
+else
+    echo -e "\e[31mWARNING: Docker permission issue detected! Try logging out and back in.\e[0m"
+fi
